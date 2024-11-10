@@ -1,0 +1,1 @@
+const checkUser = require("./auth/AuthUser.js");
