@@ -8,11 +8,11 @@ const User = require("./models/User.js")
 const db = require("./connections/sequelize.js")
 const MySql = require("./db/database.js")
 const checkIP = require("./api/checkIP.js")
-
+const nodemailer = require('nodemailer')
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname + "/views"))
-
+app.use(express.static(__dirname + "/images"))
 app.get('/', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
@@ -34,9 +34,25 @@ app.get('/', async(req, res)=>{
   }
 })
 app.get('/login', async(req, res)=>{
-  const ip = await GetIPFunction().query
-  const check = await checkIP(ip)
-  res.json({ check })
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  if(user === null){
+    res.render('login', {
+      message: `
+      <div class="alert alert-warning" role="alert">
+        <strong>
+          <i>Não foi encontrado um usuário cadastrado com seu IP.</i>
+        </strong>
+      </div>
+      `
+    })
+  }else{
+    res.redirect('/')
+  }
 })
 app.get('/tests', async(req, res)=>{
   // const user = await checkUser(
