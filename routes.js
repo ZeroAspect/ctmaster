@@ -7,6 +7,7 @@ const checkUser = require("./auth/AuthUser.js")
 const User = require("./models/User.js")
 const db = require("./connections/sequelize.js")
 const MySql = require("./db/database.js")
+const checkIP = require("./api/checkIP.js")
 
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
@@ -31,6 +32,11 @@ app.get('/', async(req, res)=>{
       message: "Ocorreu um erro inesperado"
     })
   }
+})
+app.get('/login', async(req, res)=>{
+  const ip = await GetIPFunction().query
+  const check = await checkIP(ip)
+  res.json({ check })
 })
 app.get('/tests', async(req, res)=>{
   // const user = await checkUser(
