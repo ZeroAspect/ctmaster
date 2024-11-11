@@ -23,6 +23,10 @@ const User = db.define("Users",
       type: DataTypes.STRING,
       allowNull: false
     },
+    biografia: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
     data: {
       type: DataTypes.DATEONLY,
       defaultValue: DataTypes.NOW
