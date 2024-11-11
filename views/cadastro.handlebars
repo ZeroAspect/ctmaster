@@ -25,3 +25,11 @@
     </div>
   </form>
 </div>
+
+<script>
+  const viewPass = document.getElementById('viewPass');
+  viewPass.addEventListener('change', ()=>{
+    const senha = document.getElementById('senha');
+    senha.type = viewPass.checked ? 'text' : 'password';
+  })
+</script>
