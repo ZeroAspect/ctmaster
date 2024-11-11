@@ -47,3 +47,5 @@ async function sendMail(options = {}){
     }
   }
 }
+
+module.exports = sendMail
