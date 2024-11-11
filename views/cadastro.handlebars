@@ -1,0 +1,27 @@
+<div class="container">
+  <h2>
+    Cadastrar novo Usuário
+  </h2>
+  <form action="/cadastro" method="post">
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome de Usuário <strong class="text-danger">*</strong></label>
+      <input type="text" class="form-control" id="nome" name="nome" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email <strong class="text-danger">*</strong></label>
+      <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+      <label for="senha" class="form-label">Senha <strong class="text-danger">*</strong></label>
+      <input type="password" class="form-control" id="senha" name="senha" required>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="viewPass" name="viewPass">
+        <label class="form-check-label" for="viewPass">Mostrar Senha</label>
+      </div>
+    </div>
+    <div class="mb-3 d-grid gap-2">
+      <button type="submit" class="btn btn-success"><i>Cadastrar</i></button>
+      <a href="/login" class="btn btn-link">Clique aqui para fazer o Login na sua conta.</a>
+    </div>
+  </form>
+</div>
