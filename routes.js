@@ -14,8 +14,23 @@ app.set("views", path.join(__dirname + "/views"))
 
 app.get('/', async(req, res)=>{
   const ip = await GetIPFunction()
-  console.log(ip)
-  res.render("home")
+  const user = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  try{
+    if(!user || user === null){
+      res.redirect('/login')
+    }else{
+      res.render('home')
+    }
+  }catch(error){
+    console.error(error)
+    res.status(404).json({
+      message: "Ocorreu um erro inesperado"
+    })
+  }
 })
 app.get('/tests', async(req, res)=>{
   // const user = await checkUser(
