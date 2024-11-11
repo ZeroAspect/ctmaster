@@ -3,8 +3,12 @@ const MySql = require("../db/database.js");
 const User = require("../models/User.js");
 
 async function checkUser(nome, senha){
-  const user = await User.findOne({ where: { nome: nome, senha: senha } });
-  console.log(user)
+  const user = await User.findOne({
+    where:{
+      nome: nome,
+      senha: senha
+    }
+  });
   if(user === null){
     console.log("Usuário não encontrado")
     return false
