@@ -5,4 +5,17 @@
   <small>
     {{{message}}}
   </small>
+  <form action="/login" method="post">
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome <strong class="text-danger">*</strong></label>
+      <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome">
+    </div>
+    <div class="mb-3">
+      <label for="senha" class="form-label">Senha <strong class="text-danger">*</strong></label>
+      <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha">
+    </div>
+    <div class="mb-3 d-grid gap-2">
+      <button type="submit" class="btn btn-success"><i>Entrar</i></button>
+    </div>
+  </form>
 </div>
