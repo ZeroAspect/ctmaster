@@ -13,6 +13,8 @@ app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname + "/views"))
 app.use(express.static(__dirname + "/images"))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.get('/', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
@@ -54,6 +56,33 @@ app.get('/login', async(req, res)=>{
     res.redirect('/')
   }
 })
+app.post('/login', async(req, res)=>{
+  const ip = await GetIPFunction()
+  const { nome, senha } = req.body
+  const user = await User.findOne({
+    where: {
+      nome,
+      senha
+    }
+  })
+  if(user === null){
+    
+    res.render('login', {
+      message: `
+      <div class="alert alert-danger" role="alert">
+        <strong>
+          <i>Nome ou Senha incorreta.</i>
+        </strong>
+      </div>
+      `
+    })
+  }else{
+    await user.update({
+      ip: ip.query
+    })
+    res.redirect('/')
+  }
+})
 app.get('/tests', async(req, res)=>{
   // const user = await checkUser(
   //   "jose",
@@ -62,4 +91,17 @@ app.get('/tests', async(req, res)=>{
   res.json({
     route: "Área destinada para testes de automação"
   })
+})
+app.get('/cadastro', async(req, res)=>{
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  if(user === null){
+    res.render('cadastro')
+  }else{
+    res.redirect('/')
+  }
 })
