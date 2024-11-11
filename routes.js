@@ -9,6 +9,9 @@ const db = require("./connections/sequelize.js")
 const MySql = require("./db/database.js")
 const checkIP = require("./api/checkIP.js")
 const nodemailer = require('nodemailer')
+const formatName = require("./infra/formatName.js")
+const { marked } = require("marked")
+const fs = require("fs")
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname + "/views"))
@@ -103,5 +106,56 @@ app.get('/cadastro', async(req, res)=>{
     res.render('cadastro')
   }else{
     res.redirect('/')
+  }
+})
+app.post('/cadastro', async(req, res)=>{
+  const ip = await GetIPFunction()
+  const { nome, email, senha } = req.body
+  const removeSpaces = nome.replace(' ', '')
+  const formatName = removeSpaces.toLowerCase()
+  const findUserNameExists = await User.findOne({
+    where: {
+      nome: formatName
+    }
+  })
+  const findUserEmailExists = await User.findOne({
+    where: {
+      email
+    }
+  })
+  if(findUserNameExists === null && findUserEmailExists === null){
+    const user = await User.create({
+      nome: formatName,
+      email,
+      senha,
+      biografia: marked("*Olá mundo*"),
+      ip: ip.query
+    })
+    if(!user){
+      res.status(500).render("cadastro", {
+        message: `
+        <div class="alert alert-danger" role="alert">
+          <strong>
+            <i>Ocorreu um erro ao cadastrar o usuário.</i>
+          </strong>
+        </div>
+        `
+      })
+    }else{
+      res.redirect('/')
+    }
+  }
+})
+app.get('/license', async(req, res)=>{
+  try{
+    const license = fs.readFileSync("./LICENSE", "utf-8")
+    res.render('license', {
+      license
+    })
+  }catch(error){
+    console.error(error)
+    res.status(500).json({
+      message: "Ocorreu um erro inesperado"
+    })
   }
 })
