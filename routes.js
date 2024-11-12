@@ -159,3 +159,17 @@ app.get('/license', async(req, res)=>{
     })
   }
 })
+
+app.get('/contato', async(req, res)=>{
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    res.render('contato')
+  }
+})
