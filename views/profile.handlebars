@@ -1,0 +1,21 @@
+{{#each user}}
+  <div class="container">
+    <h5>
+      <a href="/{{nome}}">{{nome}}</a>
+    </h5>
+    <small class="text-muted">
+      Ativo desde {{createdAt}}
+    </small>
+    <div class="card">
+      <div class="card-header">
+        <i>Biografia</i>
+      </div>
+      <div class="card-text container">
+        {{{biografia}}}
+      </div>
+    </div>
+  </div>
+{{/each}}
+<div class="container">
+  {{{message}}}
+</div>
