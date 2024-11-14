@@ -179,3 +179,21 @@ app.get('/sobre', async(req, res)=>{
 app.get('/termos-de-uso', async(req, res)=>{
   res.render('termos')
 })
+app.get('/editar/perfil', async(req, res)=>{
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    const [ profile, rows ] = await mysql.query(`SELECT * FROM Users WHERE id = '${user['id']}'`)
+
+    res.render('editar', {
+      user: profile
+    })
+  }
+})
