@@ -1,6 +1,24 @@
-{{#each user}}
-{{nome}}
-{{email}}
-{{senha}}
-{{{biografia}}}
-{{/each}}
+<div class="container">
+  <h2>
+    Editar perfil
+  </h2>
+  {{#each user}}
+    <form action="/editar/perfil" method="post">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="nome" name="nome" value="{{nome}}" readonly>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{email}}" readonly>
+      </div>
+      <div class="mb-3">
+        <label for="biografia" class="form-label">Biografia</label>
+        <textarea class="form-control" id="biografia" name="biografia" style="height: 144px;" rows="3">{{biografia}}</textarea>
+      </div>
+      <div class="mb-3 d-grid gap-2">
+        <button type="submit" class="btn btn-success">Confirmar alterções</button>
+      </div>
+    </form>
+  {{/each}}
+</div>
