@@ -197,3 +197,46 @@ app.get('/editar/perfil', async(req, res)=>{
     })
   }
 })
+app.post('/editar/perfil', async(req, res)=>{
+  const { biografia } = await req.body
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    await mysql.query(`UPDATE Users SET biografia = '${biografia}' WHERE id = '${user['id']}'`)
+    res.redirect('/editar/perfil')
+  }
+})
+app.get('/:nome', async(req, res)=>{
+  const nome = req.params.nome
+  const ip = await GetIPFunction()
+  const mysql = await MySql()
+  const findUsername = await User.findOne({
+    where: {
+      nome: nome
+    }
+  })
+  const findIpQuerie = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  if(findUsername["nome"] === findIpQuerie["nome"]){
+    const [ user, rows ] = await mysql.query(`SELECT * FROM Users WHERE nome = '${nome}'`)
+    res.render('profile', {
+      user,
+      message: `<a href='/editar/perfil'>Editar Perfil</a>`
+    })
+  }else{
+    const [ user, rows ] = await mysql.query(`SELECT * FROM Users WHERE nome = '${nome}'`)
+    res.render('profile', {
+      user
+    })
+  }
+})
