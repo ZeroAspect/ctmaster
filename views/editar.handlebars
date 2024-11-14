@@ -3,6 +3,7 @@
     Editar perfil
   </h2>
   {{#each user}}
+    <small><a href="/{{nome}}">Visualizar seu perfil</a></small>
     <form action="/editar/perfil" method="post">
       <div class="mb-3">
         <label for="name" class="form-label">Nome</label>
