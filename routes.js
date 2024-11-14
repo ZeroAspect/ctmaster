@@ -173,3 +173,9 @@ app.get('/contato', async(req, res)=>{
     res.render('contato')
   }
 })
+app.get('/sobre', async(req, res)=>{
+  res.redirect('/')
+})
+app.get('/termos-de-uso', async(req, res)=>{
+  res.render('termos')
+})
