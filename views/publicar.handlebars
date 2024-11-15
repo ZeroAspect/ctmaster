@@ -1,0 +1,43 @@
+<div class="container">
+  <h2>
+    Publicar
+  </h2>
+  <small class="text-muted">
+    Campos marcados com Asterisco (<strong class="text-danger">*</strong>) são obrigatórios.
+  </small>
+  <form action="/publicar" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="titulo" class="form-label">Titulo <strong class="text-danger">*</strong></label>
+      <input type="text" class="form-control" id="titulo" name="titulo" required>
+    </div>
+    <div class="mb-3">
+      <label for="imagem" class="form-label">Imagem <strong class="text-danger">*</strong></label>
+      <input type="file" class="form-control" id="imagem" name="imagem" required>
+      <small class="form-text text-muted">A imagem deverá ter um formato de arquivo válido (JPG, PNG, GIF).</small>
+    </div>
+    <div class="mb-3">
+      <label for="conteudo" class="form-label">Conteúdo <strong class="text-danger">*</strong></label>
+      <textarea class="form-control" id="conteudo" name="conteudo" style="height: 144px; resize: none;" required></textarea>
+    </div>
+    <div class="mb-3 d-grid gap-2">
+      <button type="submit" class="btn btn-success">Publicar</button>
+      <button type="reset" class="btn btn-danger">Limpar</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  'use strict'
+  // Valida a extensão da imagem
+  const imageInput = document.getElementById('imagem');
+  imageInput.addEventListener('change', function () {
+    const allowedExtensions = /(\.jpg|\.png|\.gif)$/i;
+    const file = imageInput.files[0];
+    const fileName = file.name;
+
+    if (!allowedExtensions.exec(fileName)) {
+      alert('A imagem deve ter um formato válido (JPG, PNG, GIF).');
+      imageInput.value = '';
+    }
+  });
+</script>
