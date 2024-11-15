@@ -9,25 +9,35 @@
   <hr>
   <br>
   {{#each posts}}
-    <div class="card mb-3 md-4">
-      <div class="card-header d-flex justify-content-between">
-        <h6>
-          {{id}}. <a href="/{{nome}}/{{id}}">{{titulo}}</a>
-        </h6>
-        <span class="text-muted">
-          {{post_like}}
-        </span>
+      <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between">
+          <h6>
+            {{id}}. <a href="/{{nome}}/{{id}}">{{titulo}}</a>
+          </h6>
+          <span class="text-muted">
+            {{post_like}}
+          </span>
+        </div>
+        <div class="card-body">
+          <details class=" details">
+            <summary class="summary">
+              Expandir imagem
+            </summary>
+            <p class="text-center">
+              <img class="rounded mx-auto d-block" src="/{{filename}}" alt="Imagem do post">
+            </p>
+          </details>
+        </div>
+        <div class="card-footer">
+          <p class="d-grid gap-2">
+            <button class="btn btn-outline-primary" onclick="location.href='/{{nome}}/{{id}}'">
+              Ler mais...
+            </button>
+          </p>
+        </div>
       </div>
-      <div class="card-body">
-        <img class="card-img-top" src="/{{filename}}" alt="{{imagem}}">
-      </div>
-      <div class="card-footer">
-        <p class="card-text d-grid gap-2">
-          <button class="btn btn-outline-primary" onclick="location.href='/{{nome}}/{{id}}'">
-            Ler mais...
-          </button>
-        </p>
-      </div>
-    </div>
   {{/each}}
+</div>
+<div class="container">
+  
 </div>
