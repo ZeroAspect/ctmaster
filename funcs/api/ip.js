@@ -1,5 +1,5 @@
 async function GetIPFunction(){
-  const url = "http://ip-api.com/json/"
+  const url = "https://api.ipgeolocation.io/getip"
   try{
     const require = await fetch(url)
     const data = await require.json()
