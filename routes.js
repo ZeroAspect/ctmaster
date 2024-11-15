@@ -272,6 +272,14 @@ app.post('/publicar', upload.single('imagem'), async(req, res)=>{
   if(user === null){
     res.redirect('/login')
   } else{
-    res.json(req.file)
+    const imagem = await req.file.filename
+    const createPost = await Posts.create({
+      nome: user['nome'],
+      titulo,
+      conteudo: marked(conteudo),
+      filename: imagem,
+      
+    })
+    res.redirect(`/post/${createPost['nome']}/${createPost['id']}`)
   }
 })
