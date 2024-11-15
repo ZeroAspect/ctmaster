@@ -23,7 +23,7 @@ app.set("views", path.join(__dirname + "/views"))
 
 // static files
 app.use(express.static(path.join(__dirname + "/images")))
-app.use(express.static(path.join(__dirname + '/upload/photos/')))
+app.use(express.static(path.join(__dirname + '/upload/photos')))
 
 // express bodyParser
 app.use(express.json())
@@ -32,6 +32,7 @@ app.use(express.urlencoded({ extended: false }))
 // Routes
 app.get('/', async(req, res)=>{
   const ip = await GetIPFunction()
+  const mysql = await MySql()
   const user = await User.findOne({
     where: {
       ip: ip.query
@@ -41,7 +42,17 @@ app.get('/', async(req, res)=>{
     if(!user || user === null){
       res.redirect('/login')
     }else{
-      res.render('home')
+      const [ posts, rows ] = await mysql.query(`
+        SELECT *
+        FROM Posts
+        ORDER BY createdAt DESC
+        LIMIT 30 
+      `)
+      res.render('home',
+        {
+          posts
+        }
+      )
     }
   }catch(error){
     console.error(error)
