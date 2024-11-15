@@ -31,7 +31,7 @@
   // Valida a extensão da imagem
   const imageInput = document.getElementById('imagem');
   imageInput.addEventListener('change', function () {
-    const allowedExtensions = /(\.jpg|\.png|\.gif)$/i;
+    const allowedExtensions = /(\.jpg|\.png|\.gif|\.jpeg|\.webp)$/i;
     const file = imageInput.files[0];
     const fileName = file.name;
 
