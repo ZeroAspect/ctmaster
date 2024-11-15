@@ -1,5 +1,15 @@
 <div class="container">
   {{#each post}}
-    {{nome}}
+    <div class="card">
+      <div class="card-header d-flex justify-content-between">
+        <h5>
+          <span class="text-muted">
+            <a href="/posts/{{id}}/edit">{{titulo}}</a>
+          </span>
+        </h5>
+      </div>
+      <div class="card-footer d-flex justify-content-end">
+      </div>
+    </div>
   {{/each}}
 </div>
