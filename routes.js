@@ -240,3 +240,16 @@ app.get('/:nome', async(req, res)=>{
     })
   }
 })
+app.get('/publicar', async(req, res)=>{
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    res.render('publicar')
+  }
+})
