@@ -290,3 +290,25 @@ app.post('/publicar', upload.single('imagem'), async(req, res)=>{
     res.redirect(`/post/${createPost['nome']}/${createPost['id']}`)
   }
 })
+app.get('/relevantes', async(req, res)=>{
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    const [ posts, rows ] = await mysql.query(`
+      SELECT *
+      FROM Posts
+      ORDER BY post_likes DESC
+      LIMIT 30
+    `)
+    res.render('home', {
+      posts
+    })
+  }
+})
