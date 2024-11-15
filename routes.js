@@ -16,13 +16,20 @@ const { upload } = require("./upload/upload.js")
 const Posts = require("./models/Posts.js")
 
 
-app.use(express.static(path.join(__dirname + '/upload/photos/')))
+// handlebars
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname + "/views"))
-app.use(express.static(__dirname + "/images"))
+
+// static files
+app.use(express.static(path.join(__dirname + "/images")))
+app.use(express.static(path.join(__dirname + '/upload/photos/')))
+
+// express bodyParser
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+// Routes
 app.get('/', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
