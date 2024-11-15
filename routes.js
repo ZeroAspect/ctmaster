@@ -12,6 +12,11 @@ const nodemailer = require('nodemailer')
 const formatName = require("./infra/formatName.js")
 const { marked } = require("marked")
 const fs = require("fs")
+const { upload } = require("./upload/upload.js")
+const Posts = require("./models/Posts.js")
+
+
+app.use(express.static(path.join(__dirname + '/upload/photos/')))
 app.engine("handlebars", hbs.engine())
 app.set("view engine", "handlebars")
 app.set("views", path.join(__dirname + "/views"))
@@ -251,5 +256,22 @@ app.get('/publicar', async(req, res)=>{
     res.redirect('/login')
   }else{
     res.render('publicar')
+  }
+})
+app.post('/publicar', upload.single('imagem'), async(req, res)=>{
+  const { titulo, conteudo } = req.body
+  const file = req.file
+
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.query
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    res.json(req.file)
   }
 })
