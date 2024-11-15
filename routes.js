@@ -35,7 +35,7 @@ app.get('/', async(req, res)=>{
   const mysql = await MySql()
   const user = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   try{
@@ -46,7 +46,6 @@ app.get('/', async(req, res)=>{
         SELECT *
         FROM Posts
         ORDER BY createdAt DESC
-        LIMIT 30 
       `)
       res.render('home',
         {
@@ -65,7 +64,7 @@ app.get('/login', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   if(user === null){
@@ -104,7 +103,7 @@ app.post('/login', async(req, res)=>{
     })
   }else{
     await user.update({
-      ip: ip.query
+      ip: ip.ip
     })
     res.redirect('/')
   }
@@ -122,7 +121,7 @@ app.get('/cadastro', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   if(user === null){
@@ -152,7 +151,7 @@ app.post('/cadastro', async(req, res)=>{
       email,
       senha,
       biografia: marked("*Olá mundo*"),
-      ip: ip.query
+      ip: ip.ip
     })
     if(!user){
       res.status(500).render("cadastro", {
@@ -187,7 +186,7 @@ app.get('/contato', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   if(user === null){
@@ -207,7 +206,7 @@ app.get('/editar/perfil', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   if(user === null){
@@ -226,7 +225,7 @@ app.post('/editar/perfil', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   if(user === null){
@@ -247,7 +246,7 @@ app.get('/@:nome', async(req, res)=>{
   })
   const findIpQuerie = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   if(findUsername["nome"] === findIpQuerie["nome"]){
@@ -267,7 +266,7 @@ app.get('/publicar', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   if(user === null){
@@ -284,7 +283,7 @@ app.post('/publicar', upload.single('imagem'), async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   if(user === null){
@@ -306,7 +305,7 @@ app.get('/relevantes', async(req, res)=>{
   const ip = await GetIPFunction()
   const user = await User.findOne({
     where: {
-      ip: ip.query
+      ip: ip.ip
     }
   })
   if(user === null){
@@ -316,10 +315,33 @@ app.get('/relevantes', async(req, res)=>{
       SELECT *
       FROM Posts
       ORDER BY post_likes DESC
-      LIMIT 30
     `)
     res.render('home', {
       posts
     })
+  }
+})
+app.get('/:nome/:id', async(req, res)=>{
+  const { nome, id } = req.params
+  const ip = await GetIPFunction()
+  const mysql = await MySql()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    const [ post, rows ] = await mysql.query(`
+      SELECT *
+      FROM Posts
+      WHERE id= '${id}' AND nome = '${nome}'
+    `)
+    res.render('post',
+      {
+        post
+      }
+    )
   }
 })
