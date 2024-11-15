@@ -21,7 +21,7 @@ const Posts = db.define('Posts',
       type: DataTypes.TEXT,
       allowNull: false
     },
-    fonte: {
+    filename: {
       type: DataTypes.TEXT,
       allowNull: false
     },
@@ -29,6 +29,10 @@ const Posts = db.define('Posts',
       type: DataTypes.INTEGER,
       defaultValue: 0,
       allowNull: false
+    },
+    data: {
+      type: DataTypes.DATEONLY,
+      defaultValue: DataTypes.NOW
     }
   }
 )
