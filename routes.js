@@ -213,7 +213,7 @@ app.post('/editar/perfil', async(req, res)=>{
     res.redirect('/editar/perfil')
   }
 })
-app.get('/:nome', async(req, res)=>{
+app.get('/@:nome', async(req, res)=>{
   const nome = req.params.nome
   const ip = await GetIPFunction()
   const mysql = await MySql()
