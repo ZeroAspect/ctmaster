@@ -339,22 +339,11 @@ app.get('/:nome/:id', async(req, res)=>{
       FROM Posts
       WHERE nome = '${nome}' AND id = '${id}'
     `)
-    console.log(rows)
-    if(post["nome"] !== user["nome"]){
-      
-      res.render('post',
-        {
-          post
-        }
-      )
-    }else{
-      res.render('post',
-        {
-          post,
-          btn1: `<button type="button" onclick="location.href='/${post["nome"]}/${post["id"]}/edit'">Editar</button>`,
-          btn2: `<button type="button" onclick="location.href='/${post["nome"]}/${post["id"]}/delete'">Deletar</button>`
-        }
-      )
-    }
+    res.render('post', {
+      post
+    })
   }
+})
+app.get('/museu', async(req, res)=>{
+  res.render('museu')
 })

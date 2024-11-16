@@ -2,13 +2,31 @@
   {{#each post}}
     <div class="card">
       <div class="card-header d-flex justify-content-between">
-        <h5>
-          <span class="text-muted">
-            <a href="/posts/{{id}}/edit">{{titulo}}</a>
-          </span>
-        </h5>
+        <span>
+          <a href="/@{{nome}}">{{nome}}</a>
+        </span>
+        <span>
+          {{post_like}}
+        </span>
       </div>
-      <div class="card-footer d-flex justify-content-end">
+      <div class="card-body">
+        <img src="/{{filename}}" class="img-fluid rounded mx-auto d-block">
+        <p class="card-text">
+          {{{conteudo}}}
+        </p>
+      </div>
+      <div class="card-footer d-flex justify-content-between">
+        <small>
+          <small>
+            {{createdAt}}
+          </small>
+        </small>
+        <form action="/{{nome}}/{{id}}/curtir" method="post">
+          <button class="btn btn-sm btn-outline-danger">
+            Curtir
+            <span class="badge bg-primary">{{post_like}}</span>
+          </button>
+        </form>
       </div>
     </div>
   {{/each}}
