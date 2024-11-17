@@ -1,6 +1,6 @@
 <div class="container">
   {{#each post}}
-    <div class="card">
+    <div class="card mb-3">
       <div class="card-header d-flex justify-content-between">
         <span>
           <a href="/@{{nome}}">{{nome}}</a>
@@ -26,6 +26,25 @@
             Curtir
             <span class="badge bg-primary">{{post_like}}</span>
           </button>
+        </form>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between text-muted">
+        <i>Comentar</i>
+        <span>
+          <a href="/@{{nome}}">{{nome}}</a>
+        </span>
+      </div>
+      <div class="card-body">
+        <form action="/{{nome}}/{{id}}/comentar" class="container" method="post">
+          <div class="mb-3">
+            <textarea class="form-control" rows="3" style="height: 144px; resize: none;" name="comentario"></textarea>
+          </div>
+          <div class="mb-3 d-flex justify-content-end">
+            <button type="submit" class="btn btn-outline-success mx-2">Comentar</button>
+            <button type="reset" id="cancelComment" class="btn btn-outline-danger">Cancelar</button>
+          </div>
         </form>
       </div>
     </div>
