@@ -1,0 +1,66 @@
+<div class="container">
+  {{#each comment}}
+    <h2>Comentários - Respostas</h2>
+    <span class="text-muted">
+      <a href="/@{{nome}}">{{nome}}</a>
+    </span>
+    <br>
+    <hr>
+    <br>
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between">
+        <small>
+          <a href="/@{{nome}}">{{nome}}</a>
+        </small>
+        <small>
+          <span class="text-muted">
+            {{id}}
+          </span>
+        </small>
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{{comentario}}}</p>
+      </div>
+      <div class="card-footer">
+        {{createdAt}}
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-header">
+        <i>Responder</i>
+      </div>
+      <div class="card-body">
+        <form action="/{{nome}}/{{post_id}}/comentario/{{id}}/responder" method="post">
+          <div class="mb-3">
+            <label for="resposta" class="form-label">Responder</label>
+            <textarea class="form-control" id="resposta" name="resposta" rows="3" style="height: 144px; resize: none;"></textarea>
+          </div>
+          <div class="mb-3 d-grid gap-2">
+            <button type="submit" class="btn btn-sm btn-outline-success">Responder</button>
+            <button type="reset" class="btn btn-sm btn-outline-danger">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  {{/each}}
+</div>
+<div class="container">
+  {{#each respostas}}
+    <div class="container">
+      <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between">
+          <small>
+            <a href="/@{{nome}}">{{nome}}</a>
+          </small>
+          <small class="text-muted">{{id}}</small>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{{resposta}}}</p>
+        </div>
+        <div class="card-footer">
+          {{createdAt}}
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
