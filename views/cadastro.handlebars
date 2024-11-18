@@ -2,10 +2,28 @@
   <h2>
     Cadastrar novo Usuário
   </h2>
+  <i>
+    Seja criativo ao criar seu <strong>nome de Usuário</strong>.
+    <br>
+    Ele vai ser formatado, sendo tirado todos os <strong>espaçamentos, Caracteres maiusculos, entre outras coisas.</strong>
+    <br>
+    <strong>
+      Exemplo:
+    </strong>
+    <br>
+    "  Usuário 123  " será transformado em "usuario123"
+  </i>
   <div class="container">
+    {{!-- <div class="card mb-3">
+      <div class="card-header"><i>Cuidado!!</i></div>
+      <div class="card-body">
+        
+      </div>
+    </div> --}}
     <small>
       {{{message}}}
     </small>
+    <hr>
   </div>
   <form action="/cadastro" method="post">
     <div class="mb-3">
