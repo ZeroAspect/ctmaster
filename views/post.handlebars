@@ -50,9 +50,9 @@
     </div>
   {{/each}}
 </div>
+{{#each comentario}}
 <div class="container">
-  {{#each comentario}}
-    <div class="card">
+    <div class="card mb-3">
       <div class="card-header d-flex justify-content-between">
         <small>
           <a href="/@{{nome}}">{{nome}}</a>
@@ -69,9 +69,6 @@
           <div class="card">
             <div class="card-header d-flex justify-content-between">
               <i>Resposta</i>
-              <span>
-                <a href="/@{{nome}}">{{nome}}</a>
-              </span>
             </div>
             <div class="card-body">
               <textarea class="form-control" rows="3" style="height: 144px; resize: none;" name="resposta"></textarea>
@@ -88,13 +85,13 @@
           <small>
             {{createdAt}}
           </small>
-          <form action="/{{nome}}/{{id}}/curtir-comentario/{{comment_id}}" method="post">
+          {{!-- <form action="/{{nome}}/{{post_id}}/curtir/comentario/{{id}}" method="post">
             <button class="btn btn-sm btn-outline-danger">
               Curtir
               <span class="badge bg-primary">{{comment_like}}</span>
             </button>
-          </form>
+          </form> --}}
         </small>
     </div>
-  {{/each}}
 </div>
+{{/each}}
