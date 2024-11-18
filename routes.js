@@ -14,6 +14,7 @@ const { marked } = require("marked")
 const fs = require("fs")
 const { upload } = require("./upload/upload.js")
 const Posts = require("./models/Posts.js")
+const Comentario = require("./models/Comentario.js")
 
 
 // handlebars
@@ -339,11 +340,59 @@ app.get('/:nome/:id', async(req, res)=>{
       FROM Posts
       WHERE nome = '${nome}' AND id = '${id}'
     `)
+    const [ comentario, rowsComment ] = await mysql.query(`
+      SELECT *
+      FROM Comentarios
+      WHERE nome = '${nome}' AND post_id = '${id}'
+    `)
     res.render('post', {
-      post
+      post,
+      comentario,
+      // message: `<a href='/${nome}/${id}/edit'>Editar Publicação</a>`
     })
   }
 })
 app.get('/museu', async(req, res)=>{
   res.render('museu')
+})
+app.post('/:nome/:id/curtir', async(req, res)=>{
+  const { nome, id } = req.params
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    await mysql.query(`
+      UPDATE Posts
+      SET post_like = post_like + 1
+      WHERE nome = '${nome}' AND id = '${id}'
+    `)
+    res.redirect(`/${nome}/${id}`)
+  }
+})
+app.post("/:nome/:id/comentar", async(req, res)=>{
+  const { nome, id } = req.params
+  const { comentario } = req.body
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    await Comentario.create({
+      nome: user['nome'],
+      post_id: id,
+      comentario: marked(comentario)
+    })
+    res.redirect(`/${nome}/${id}`)
+  }
 })
