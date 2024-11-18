@@ -343,7 +343,9 @@ app.get('/:nome/:id', async(req, res)=>{
     const [ comentario, rowsComment ] = await mysql.query(`
       SELECT *
       FROM Comentarios
-      WHERE nome = '${nome}' AND post_id = '${id}'
+      WHERE post_id = '${id}'
+      ORDER BY
+      comment_like DESC
     `)
     res.render('post', {
       post,
@@ -396,3 +398,23 @@ app.post("/:nome/:id/comentar", async(req, res)=>{
     res.redirect(`/${nome}/${id}`)
   }
 })
+// app.post('/:nome/:post_id/curtir/comentario/:id', async(req, res)=>{
+//   const { nome, post_id, id } = req.params
+//   const mysql = await MySql()
+//   const ip = await GetIPFunction()
+//   const user = await User.findOne({
+//     where: {
+//       ip: ip.ip
+//     }
+//   })
+//   if(user === null){
+//     res.redirect('/login')
+//   } else{
+//     await mysql.query(`
+//       UPDATE Comentarios
+//       SET comment_like = comment_like + 1
+//       WHERE id = '${id}'
+//     `)
+//     res.redirect(`/${nome}/${id}`)
+//   }
+// })
