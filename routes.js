@@ -15,6 +15,7 @@ const fs = require("fs")
 const { upload } = require("./upload/upload.js")
 const Posts = require("./models/Posts.js")
 const Comentario = require("./models/Comentario.js")
+const Resposta = require("./models/Respostas.js")
 
 
 // handlebars
@@ -347,9 +348,15 @@ app.get('/:nome/:id', async(req, res)=>{
       ORDER BY
       comment_like DESC
     `)
+    const [ resposta, rowsReply ] = await mysql.query(`
+      SELECT *
+      FROM Respostas
+      WHERE post_id = '${id}'
+    `)
     res.render('post', {
       post,
       comentario,
+      resposta
       // message: `<a href='/${nome}/${id}/edit'>Editar Publicação</a>`
     })
   }
@@ -398,23 +405,46 @@ app.post("/:nome/:id/comentar", async(req, res)=>{
     res.redirect(`/${nome}/${id}`)
   }
 })
-// app.post('/:nome/:post_id/curtir/comentario/:id', async(req, res)=>{
-//   const { nome, post_id, id } = req.params
-//   const mysql = await MySql()
-//   const ip = await GetIPFunction()
-//   const user = await User.findOne({
-//     where: {
-//       ip: ip.ip
-//     }
-//   })
-//   if(user === null){
-//     res.redirect('/login')
-//   } else{
-//     await mysql.query(`
-//       UPDATE Comentarios
-//       SET comment_like = comment_like + 1
-//       WHERE id = '${id}'
-//     `)
-//     res.redirect(`/${nome}/${id}`)
-//   }
-// })
+app.post('/:nome/:post_id/curtir/comentario/:id', async(req, res)=>{
+  const { nome, post_id, id } = req.params
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    await mysql.query(`
+      UPDATE Comentarios
+      SET comment_like = comment_like + 1
+      WHERE id = '${id}'
+    `)
+    res.redirect(`/${nome}/${id}`)
+  }
+})
+
+app.post('/:nome/:post_id/comentario/:id/responder', async(req, res)=>{
+  const { nome, post_id, id } = req.params
+  const { resposta } = req.body
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    await Resposta.create({
+      nome: user['nome'],
+      comment_id: id,
+      post_id,
+      resposta: marked(resposta)
+    })
+    res.redirect(`/${nome}/${post_id}`)
+  }
+})
