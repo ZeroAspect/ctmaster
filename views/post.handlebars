@@ -51,7 +51,7 @@
   {{/each}}
 </div>
 {{#each comentario}}
-<div class="container">
+  <div class="container">
     <div class="card mb-3">
       <div class="card-header d-flex justify-content-between">
         <small>
@@ -81,17 +81,10 @@
         </form>
       </div>
       <div class="card-footer">
-        <small class=" d-flex justify-content-between">
-          <small>
-            {{createdAt}}
-          </small>
-          {{!-- <form action="/{{nome}}/{{post_id}}/curtir/comentario/{{id}}" method="post">
-            <button class="btn btn-sm btn-outline-danger">
-              Curtir
-              <span class="badge bg-primary">{{comment_like}}</span>
-            </button>
-          </form> --}}
-        </small>
+        <div class="d-grid gap-2">
+          <button type="button" class="btn btn-outline-primary" onclick="location.href='/{{nome}}/{{post_id}}/comentario/{{id}}/respostas'">Ver Respostas</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 {{/each}}
