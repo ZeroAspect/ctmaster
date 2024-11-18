@@ -448,3 +448,36 @@ app.post('/:nome/:post_id/comentario/:id/responder', async(req, res)=>{
     res.redirect(`/${nome}/${post_id}`)
   }
 })
+app.get('/:nome/:post_id/comentario/:id/respostas', async(req, res)=>{
+  const { nome, post_id, id } = req.params
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+
+  // QUERIES
+  const [ comment, postRows ] = await mysql.query(`
+    SELECT *
+    FROM Comentarios
+    WHERE id = '${id}'
+  `)
+  const [ respostas, rows ] = await mysql.query(`
+    SELECT *
+    FROM Respostas
+    WHERE comment_id = '${id}'
+    ORDER BY
+    id DESC
+  `)
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    res.render('respostas', {
+      comment,
+      respostas
+    })
+  }
+})
