@@ -233,7 +233,7 @@ app.post('/editar/perfil', async(req, res)=>{
   if(user === null){
     res.redirect('/login')
   } else{
-    await mysql.query(`UPDATE Users SET biografia = '${biografia}' WHERE id = '${user['id']}'`)
+    await mysql.query(`UPDATE Users SET biografia = '${marked(biografia)}' WHERE id = '${user['id']}'`)
     res.redirect('/editar/perfil')
   }
 })
@@ -479,5 +479,29 @@ app.get('/:nome/:post_id/comentario/:id/respostas', async(req, res)=>{
       comment,
       respostas
     })
+  }
+})
+app.get('/api/v1/posts', async(req, res)=>{
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.status(401).json({
+      info: 'Você não está logado',
+      code: 401,
+      message: 'Acesse a rota /login e acesse sua conta, ou crie sua conta em /cadastro'
+    })
+  } else{
+    const [ posts, rows ] = await mysql.query(`
+      SELECT *
+      FROM Posts
+      ORDER BY
+      id DESC
+    `)
+    res.json(posts)
   }
 })
