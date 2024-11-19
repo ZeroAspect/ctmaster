@@ -299,7 +299,7 @@ app.post('/publicar', upload.single('imagem'), async(req, res)=>{
       filename: imagem,
       
     })
-    res.redirect(`/post/${createPost['nome']}/${createPost['id']}`)
+    res.redirect(`/${createPost['nome']}/${createPost['id']}`)
   }
 })
 app.get('/relevantes', async(req, res)=>{
