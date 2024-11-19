@@ -483,7 +483,7 @@ app.get('/:nome/:post_id/comentario/:id/respostas', async(req, res)=>{
 })
 
 // Api's
-app.get('/api/v1', async(req, res)=>{
+app.get('/api/v1/json', async(req, res)=>{
   res.json({
     info: 'API para gerenciamento de conteúdo',
     version: '1.0.0',
@@ -496,6 +496,24 @@ app.get('/api/v1', async(req, res)=>{
       '/api/v1/posts/:id/curtir/:comment_id'
     ]
   })
+})
+app.get('/api/v1', async(req, res)=>{
+  const ip = await GetIPFunction()
+  const mysql = await MySql()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.status(401).json({
+      info: 'Você não está logado',
+      code: 401,
+      message: 'Acesse a rota /login e acesse sua conta, ou crie sua conta em /cadastro'
+    })
+  }else{
+    res.render('api/v1/home')
+  }
 })
 app.get('/api/v1/posts', async(req, res)=>{
   const mysql = await MySql()
