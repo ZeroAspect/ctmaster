@@ -1,0 +1,245 @@
+<div class="container">
+  <h2>
+    API para gerenciamento de conteúdo
+  </h2>
+  <span class="text-muted">
+    Versão: 1.0.0
+  </span>
+  <hr>
+  <div class="p-3 text-bg-dark rounded">
+    - ATENÇAO: Esta API está passando por mudanças, então essa documentação não está completa.
+  </div>
+  <div class="text-decoration-none">
+    <ul>
+      <li>
+        <a class="text-decoration-none" href="#change-log">
+          Change Log
+        </a>
+      </li>
+      <li>
+        <a class="text-decoration-none" href="#introducao">
+          Introdução
+        </a>
+      </li>
+      <li>
+        <a class="text-decoration-none" href="#base-url">
+          Base URL
+        </a>
+      </li>
+      <li>
+        <a class="text-decoration-none" href="#obter-conteudos">
+          Obter Conteúdos
+        </a>
+        <ul>
+          <li>
+            <a class="text-decoration-none" href="#lista-de-conteudos-da-pagina-inicial">
+              Lista de Conteúdos da Página Inicial
+            </a>
+          </li>
+          <li>
+            <a class="text-decoration-none" href="#lista-de-conteudos-de-um-usuario">
+              Lista de Conteúdos de um Usuário
+            </a>
+          </li>
+          <li>
+            <a class="text-decoration-none" href="#lista-de-conteudos-por-titulo">
+              Lista de Conteúdos por titulo
+            </a>
+          </li>
+          <li>
+            <a class="text-decoration-none" href="#obter-um-conteudo-por-id">
+              Obter um Conteúdo por ID
+            </a>
+          </li>
+          <li>
+            <a class="text-decoration-none" href="#obter-conteudos-por-categorias">
+              Obter Conteúdos por data
+            </a>
+          </li>
+          
+        </ul>
+      </li>
+      <li>
+        <a class="text-decoration-none" href="#autenticacao">
+          Autenticação
+        </a>
+        <ul>
+          <li>
+            <a class="text-decoration-none" href="#criar-usuario">
+              Criar usuário
+            </a>
+          </li>
+          <li>
+            <a class="text-decoration-none" href="#login">
+              Login usuário
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a class="text-decoration-none" href="#editar-perfil">
+          Editar Perfil
+        </a>
+      </li>
+      <li>
+        <a class="text-decoration-none" href="#publicar-conteudo">
+          Publicar conteúdo
+        </a>
+      </li>
+    </ul>
+  </div>
+  <hr>
+  <div id="change-log" class="p-3 text-bg-light rounded mb-3">
+    <h4>
+      Change Log
+    </h4>
+    <ul>
+      <li>
+        <strong>(19/11/2024)</strong> - Início da documentação
+      </li>
+    </ul>
+  </div>
+  <hr>
+  <div id="introducao" class="p-3 text-bg-light rounded">
+    <h4>
+      Introdução
+    </h4>
+    <p>
+      Esta é uma API para gerenciamento de conteúdo.
+      <br>
+      A API é responsável por fornecer dados sobre conteúdos, como títulos, conteúdo, categorias, etc.
+      <br>
+      A API possui endpoints para listar, cadastrar, editar, e excluir conteúdos.
+    </p>
+  </div>
+  <hr>
+  <div id="base-url" class="p-3 text-bg-light rounded">
+    <h4>
+      Base URL
+    </h4>
+    <p>
+      Todos os endpoints da API começam com esta URL.
+    </p>
+    <p>
+      <code>https://ctmaster.vercel.app/api/v1</code>
+    </p>
+  </div>
+  <hr>
+  <div id="obter-conteudos" class="p-3 text-bg-light rounded">
+    <h4>
+      Obter Conteúdos
+    </h4>
+    <p>
+      Os endpoints para listar conteúdos podem ser usados para recuperar uma lista de conteúdos.
+    </p>
+    <h5 id="#lista-de-conteudos-da-pagina-inicial">
+      Lista de Conteúdos da Página Inicial
+    </h5>
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>URL</th>
+          <th>Descrição</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>/conteudos</code>
+          </td>
+          <td>
+            Retorna uma lista de conteúdos com os dados típicos (título, conteúdo, curtidas).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <hr>
+  <h5 id="lista-de-conteudos-de-um-usuarios">
+    Lista de Conteúdos de um Usuário
+  </h5>
+  <table class="table table-responsive">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <code>/conteudos/user/:username</code>
+        </td>
+        <td>
+          Retorna uma lista de conteúdos do usuário com os dados típicos (título, conteúdo, curtidas).
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <h5 id="lista-de-conteudos-por-titulo">
+    Lista de Conteúdos por Título
+  </h5>
+  <table class="table table-responsive">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <code>/conteudos/title/:title</code>
+        </td>
+        <td>
+          Retorna uma lista de conteúdos com o título especificado.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <h5 id="obter-um-conteudo-por-id">
+    Obter um Conteúdo por ID
+  </h5>
+  <table class="table table-responsive">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Descrição</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+          <code>/conteudos/:id</code>
+        </td>
+        <td>
+          Retorna os dados de um conteúdo específico.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <h5 id="obter-conteudos-por-categorias">
+    Obter Conteúdos por Data
+  </h5>
+  <table class="table table-responsive">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <code>/conteudos/date/:datetime</code>
+        </td>
+        <td>
+          Retorna uma lista de conteúdos da categoria especificada.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
