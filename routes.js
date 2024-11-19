@@ -481,6 +481,22 @@ app.get('/:nome/:post_id/comentario/:id/respostas', async(req, res)=>{
     })
   }
 })
+
+// Api's
+app.get('/api/v1', async(req, res)=>{
+  res.json({
+    info: 'API para gerenciamento de conteúdo',
+    version: '1.0.0',
+    endpoints: [
+      '/api/v1/posts',
+      '/api/v1/posts/:id',
+      '/api/v1/posts/:id/comentarios',
+      '/api/v1/posts/:id/comentarios/:comment_id',
+      '/api/v1/posts/:id/curtir',
+      '/api/v1/posts/:id/curtir/:comment_id'
+    ]
+  })
+})
 app.get('/api/v1/posts', async(req, res)=>{
   const mysql = await MySql()
   const ip = await GetIPFunction()
