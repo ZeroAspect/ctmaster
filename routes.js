@@ -332,7 +332,7 @@ app.get('/:nome/:id', async(req, res)=>{
       ip: ip.ip
     }
   })
-  console.log(user.dataValues["nome"])
+  // console.log(user.dataValues["nome"])
   const [ post, rows ] = await mysql.query(`
     SELECT *
     FROM Posts
