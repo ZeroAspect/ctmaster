@@ -31,6 +31,64 @@ app.use(express.static(path.join(__dirname + '/upload/photos')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+
+// Api
+app.get('/api/v1/json', async(req, res)=>{
+  res.json({
+    info: 'API para gerenciamento de conteúdo',
+    version: '1.0.0',
+    endpoints: [
+      '/api/v1/posts',
+      '/api/v1/posts/:id',
+      '/api/v1/posts/:id/comentarios',
+      '/api/v1/posts/:id/comentarios/:comment_id',
+      '/api/v1/posts/:id/curtir',
+      '/api/v1/posts/:id/curtir/:comment_id'
+    ]
+  })
+})
+app.get('/api/v1', async(req, res)=>{
+  const ip = await GetIPFunction()
+  const mysql = await MySql()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.status(401).json({
+      info: 'Você não está logado',
+      code: 401,
+      message: 'Acesse a rota /login e acesse sua conta, ou crie sua conta em /cadastro'
+    })
+  }else{
+    res.render('api/v1/home')
+  }
+})
+app.get('/api/v1/posts', async(req, res)=>{
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.status(401).json({
+      info: 'Você não está logado',
+      code: 401,
+      message: 'Acesse a rota /login e acesse sua conta, ou crie sua conta em /cadastro'
+    })
+  } else{
+    const [ posts, rows ] = await mysql.query(`
+      SELECT *
+      FROM Posts
+      ORDER BY
+      id DESC
+    `)
+    res.json(posts)
+  }
+})
 // Routes
 app.get('/', async(req, res)=>{
   const ip = await GetIPFunction()
@@ -482,60 +540,3 @@ app.get('/:nome/:post_id/comentario/:id/respostas', async(req, res)=>{
   }
 })
 
-// Api's
-app.get('/api/v1/json', async(req, res)=>{
-  res.json({
-    info: 'API para gerenciamento de conteúdo',
-    version: '1.0.0',
-    endpoints: [
-      '/api/v1/posts',
-      '/api/v1/posts/:id',
-      '/api/v1/posts/:id/comentarios',
-      '/api/v1/posts/:id/comentarios/:comment_id',
-      '/api/v1/posts/:id/curtir',
-      '/api/v1/posts/:id/curtir/:comment_id'
-    ]
-  })
-})
-app.get('/api/v1', async(req, res)=>{
-  const ip = await GetIPFunction()
-  const mysql = await MySql()
-  const user = await User.findOne({
-    where: {
-      ip: ip.ip
-    }
-  })
-  if(user === null){
-    res.status(401).json({
-      info: 'Você não está logado',
-      code: 401,
-      message: 'Acesse a rota /login e acesse sua conta, ou crie sua conta em /cadastro'
-    })
-  }else{
-    res.render('api/v1/home')
-  }
-})
-app.get('/api/v1/posts', async(req, res)=>{
-  const mysql = await MySql()
-  const ip = await GetIPFunction()
-  const user = await User.findOne({
-    where: {
-      ip: ip.ip
-    }
-  })
-  if(user === null){
-    res.status(401).json({
-      info: 'Você não está logado',
-      code: 401,
-      message: 'Acesse a rota /login e acesse sua conta, ou crie sua conta em /cadastro'
-    })
-  } else{
-    const [ posts, rows ] = await mysql.query(`
-      SELECT *
-      FROM Posts
-      ORDER BY
-      id DESC
-    `)
-    res.json(posts)
-  }
-})
