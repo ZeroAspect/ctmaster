@@ -333,33 +333,33 @@ app.get('/:nome/:id', async(req, res)=>{
     }
   })
   console.log(user.dataValues["nome"])
-  if(user === null){
-    res.redirect('/login')
-  }else{
-    const [ post, rows ] = await mysql.query(`
-      SELECT *
-      FROM Posts
-      WHERE nome = '${nome}' AND id = '${id}'
-    `)
-    const [ comentario, rowsComment ] = await mysql.query(`
-      SELECT *
-      FROM Comentarios
-      WHERE post_id = '${id}'
-      ORDER BY
-      comment_like DESC
-    `)
-    const [ resposta, rowsReply ] = await mysql.query(`
-      SELECT *
-      FROM Respostas
-      WHERE post_id = '${id}'
-    `)
-    res.render('post', {
-      post,
-      comentario,
-      resposta
-      // message: `<a href='/${nome}/${id}/edit'>Editar Publicação</a>`
-    })
-  }
+  const [ post, rows ] = await mysql.query(`
+    SELECT *
+    FROM Posts
+    WHERE nome = '${nome}' AND id = '${id}'
+  `)
+  const [ comentario, rowsComment ] = await mysql.query(`
+    SELECT *
+    FROM Comentarios
+    WHERE post_id = '${id}'
+    ORDER BY
+    comment_like DESC
+  `)
+  const [ resposta, rowsReply ] = await mysql.query(`
+    SELECT *
+    FROM Respostas
+    WHERE post_id = '${id}'
+  `)
+  res.render('post', {
+    post,
+    comentario,
+    resposta
+    // message: `<a href='/${nome}/${id}/edit'>Editar Publicação</a>`
+  })
+  // if(user === null){
+  //   res.redirect('/login')
+  // }else{
+  // }
 })
 app.get('/museu', async(req, res)=>{
   res.render('museu')
