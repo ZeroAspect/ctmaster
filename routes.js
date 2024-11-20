@@ -46,9 +46,9 @@ app.get('/logout', async(req, res)=>{
     res.redirect('/login')
   }else{
     await user.update({
-      ip: null
+      ip: ''
     })
-    res.redirect('/login')
+    res.redirect('/logout/success')
   }
 })
 app.get('/logout/success', async(req, res)=>{
