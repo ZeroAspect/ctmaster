@@ -16,6 +16,7 @@ const { upload } = require("./upload/upload.js")
 const Posts = require("./models/Posts.js")
 const Comentario = require("./models/Comentario.js")
 const Resposta = require("./models/Respostas.js")
+const UserServices = require("./users/funcs.js")
 
 
 // handlebars
@@ -31,6 +32,28 @@ app.use(express.static(path.join(__dirname + '/upload/photos')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+
+app.get('/logout', async(req, res)=>{
+  const ip = await GetIPFunction()
+  const mysql = await MySql()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    await user.update({
+      ip: null
+    })
+    res.redirect('/login')
+  }
+})
+app.get('/logout/success', async(req, res)=>{
+  res.render('logout_success')
+})
 
 // Api
 app.get('/api/v1/json', async(req, res)=>{
@@ -728,6 +751,7 @@ app.get('/api/v1/contents/:nome/:id/comentarios', async(req, res)=>{
     })
   }
 })
+
 
 app.get('/api/v1/contents/:nome/:id/comentarios/:comment_id/likes', async(req, res)=>{
   const { nome, id, comment_id } = req.params
