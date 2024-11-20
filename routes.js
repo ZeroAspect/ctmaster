@@ -374,7 +374,7 @@ app.get('/relevantes', async(req, res)=>{
     const [ posts, rows ] = await mysql.query(`
       SELECT *
       FROM Posts
-      ORDER BY post_likes DESC
+      ORDER BY post_like DESC
     `)
     res.render('home', {
       posts
