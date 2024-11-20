@@ -540,3 +540,24 @@ app.get('/:nome/:post_id/comentario/:id/respostas', async(req, res)=>{
   }
 })
 
+ app.get('/:nome/:post_id/comentario/:id/responder', async(req, res)=>{
+  const { nome, post_id, id } = req.params
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    await Resposta.create({
+      nome: user['nome'],
+      comment_id: id,
+      post_id,
+      resposta: marked(req.body.resposta)
+    })
+    res.redirect(`/${nome}/${post_id}/comentario/${id}/respostas`)
+  }
+ })
