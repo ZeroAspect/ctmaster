@@ -589,3 +589,178 @@ app.get('/:nome/:post_id/comentario/:id/respostas', async(req, res)=>{
     res.redirect(`/${nome}/${post_id}/comentario/${id}/respostas`)
   }
 })
+app.get('/api/v1/contents/:nome/:id', async(req, res)=>{
+  const { nome, id } = req.params
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    const [ post, rows ] = await mysql.query(`
+      SELECT *
+      FROM Posts
+      WHERE nome = '${nome}' AND id = '${id}'
+    `)
+    res.json({
+      post
+    })
+  }
+})
+app.get('/api/v1/contents/', async(req, res)=>{
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    const [ posts, rows ] = await mysql.query(`
+      SELECT *
+      FROM Posts
+      ORDER BY
+      post_likes DESC
+    `)
+    res.json({
+      posts
+    })
+  }
+})
+app.get('/api/v1/contents/comentarios', async(req, res)=>{
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    const [ comentarios, rows ] = await mysql.query(`
+      SELECT *
+      FROM Comentarios
+      ORDER BY
+      id DESC
+    `)
+    res.json({
+      comentarios
+    })
+  }
+})
+
+app.get('/api/v1/contents/comentarios/:id', async(req, res)=>{
+  const { id } = req.params
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    const [ comentario, rows ] = await mysql.query(`
+      SELECT *
+      FROM Comentarios
+      WHERE id = '${id}'
+    `)
+    res.json({
+      comentario
+    })
+  }
+})
+
+app.get('/api/v1/contents/comentarios/:id/respostas', async(req, res)=>{
+  const { id } = req.params
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    const [ respostas, rows ] = await mysql.query(`
+      SELECT *
+      FROM Respostas
+      WHERE comment_id = '${id}'
+      ORDER BY
+      id DESC
+    `)
+    res.json({
+      respostas
+    })
+  }
+})
+
+app.get('/api/v1/contents/:nome/:id/comentarios', async(req, res)=>{
+  const { nome, id } = req.params
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    const [ comentarios, rows ] = await mysql.query(`
+      SELECT *
+      FROM Comentarios
+      WHERE post_id = '${id}'
+      ORDER BY
+      id DESC
+    `)
+    res.json({
+      comentarios
+    })
+  }
+})
+
+app.get('/api/v1/contents/:nome/:id/comentarios/:comment_id/likes', async(req, res)=>{
+  const { nome, id, comment_id } = req.params
+  const mysql = await MySql()
+  const ip = await GetIPFunction()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  } else{
+    const [ like, rows ] = await mysql.query(`
+      SELECT *
+      FROM Likes
+      WHERE post_id = '${id}' AND comment_id = '${comment_id}' AND user_id = '${user.id}'
+    `)
+    if(like.length > 0){
+      res.json({
+        success: false,
+        message: "Você já curtiu esse comentário!"
+      })
+    } else{
+      await Likes.create({
+        post_id: id,
+        comment_id,
+        user_id: user.id
+      })
+      res.json({
+        success: true,
+        message: "Comentário curtido com sucesso!"
+      })
+    }
+  }
+})
