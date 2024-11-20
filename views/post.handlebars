@@ -65,6 +65,16 @@
         <p class="card-text">
           {{{comentario}}}
         </p>
+        <details>
+          <summary>
+            Ver respostas
+          </summary>
+          <div class="p-2">
+            <a href="/{{nome}}/{{post_id}}/comentario/{{id}}/respostas">Clique aqui.</a>
+          </div>
+        </details>
+      </div>
+      <div class="card-footer">
         <form action="/{{nome}}/{{post_id}}/comentario/{{id}}/responder" method="post">
           <div class="card">
             <div class="card-header d-flex justify-content-between">
@@ -79,8 +89,6 @@
             </div>
           </div>
         </form>
-      </div>
-      <div class="card-footer">
         <div class="d-grid gap-2">
           <button type="button" class="btn btn-outline-primary" onclick="location.href='/{{nome}}/{{post_id}}/comentario/{{id}}/respostas'">Ver Respostas</button>
         </div>
