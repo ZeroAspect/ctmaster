@@ -390,7 +390,7 @@ app.get('/:nome/:id', async(req, res)=>{
       ip: ip.ip
     }
   })
-  // console.log(user.dataValues["nome"])
+
   const [ post, rows ] = await mysql.query(`
     SELECT *
     FROM Posts
@@ -408,18 +408,14 @@ app.get('/:nome/:id', async(req, res)=>{
     FROM Respostas
     WHERE post_id = '${id}'
   `)
-  
+
   res.render('post', {
     post,
     comentario,
     resposta
-    // message: `<a href='/${nome}/${id}/edit'>Editar Publicação</a>`
   })
-  // if(user === null){
-  //   res.redirect('/login')
-  // }else{
-  // }
 })
+
 app.get('/museu', async(req, res)=>{
   res.render('museu')
 })
@@ -592,4 +588,4 @@ app.get('/:nome/:post_id/comentario/:id/respostas', async(req, res)=>{
     })
     res.redirect(`/${nome}/${post_id}/comentario/${id}/respostas`)
   }
- })
+})
